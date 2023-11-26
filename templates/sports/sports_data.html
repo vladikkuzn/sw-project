@@ -1,0 +1,16 @@
+<html>
+<head>
+    <title>Sports Data</title>
+</head>
+<body>
+<h1>Sports Data</h1>
+<ul>
+    {% for entry in data %}
+        <li>
+            Sportsman: {{ entry.athleteName.value }}<br>
+            Championship: {{ entry.championshipName.value }}
+        </li>
+    {% endfor %}
+</ul>
+</body>
+</html>

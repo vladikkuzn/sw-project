@@ -1,0 +1,82 @@
+<!-- sports/templates/sports/team_detail.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ team.label }} Detail</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+        header {
+            background-color: #333;
+            color: white;
+            text-align: center;
+            padding: 1em;
+        }
+        main {
+            padding: 2em;
+        }
+        .team-detail {
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 1em;
+            margin-bottom: 1em;
+            background-color: white;
+        }
+    </style>
+</head>
+<body>
+<header>
+    <h1>{{ team.label }} Detail</h1>
+</header>
+<main>
+    <div class="team-detail" itemscope itemtype="http://schema.org/SportsTeam">
+        <h2 itemprop="name">{{ team.label }}</h2>
+        <link itemprop="url" href="{% url 'team_detail' team.id %}">
+        <script type="application/ld+json">
+            {
+                "@context": "http://schema.org",
+                "@type": "SportsTeam",
+                "name": "{{ team.label }}",
+                "url": "{% url 'team_detail' team.id %}"
+            }
+        </script>
+        <div xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+             xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#">
+            <span property="rdf:type" content="dbo:SportsTeam"></span>
+            <span property="rdfs:label" content="{{ team.label }}"></span>
+        </div>
+
+        <h3>Players Associated with {{ team.label }}</h3>
+        <ul>
+            {% for athlete in athletes %}
+                <li itemprop="athlete" itemscope itemtype="http://schema.org/Person">
+                    <a href="{% url 'athlete_detail' athlete.id %}">
+                        <span itemprop="name">{{ athlete.name }}</span>
+                    </a>
+                    <meta itemprop="url" content="{% url 'athlete_detail' athlete.id %}">
+                    <script type="application/ld+json">
+                        {
+                            "@context": "http://schema.org",
+                            "@type": "Person",
+                            "name": "{{ athlete.name }}",
+                            "url": "{% url 'athlete_detail' athlete.id %}"
+                        }
+                    </script>
+                    <div xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+                         xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#">
+                        <span property="rdf:type" content="dbo:Person"></span>
+                        <span property="rdfs:label" content="{{ athlete.name }}"></span>
+                    </div>
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
+</main>
+</body>
+</html>

@@ -1,0 +1,75 @@
+<!-- sports/templates/sports/all_athletes.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>All Athletes</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+        header {
+            background-color: #333;
+            color: white;
+            text-align: center;
+            padding: 1em;
+        }
+        main {
+            padding: 2em;
+        }
+        .athlete {
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 1em;
+            margin-bottom: 1em;
+            background-color: white;
+        }
+    </style>
+</head>
+<body>
+<header>
+    <h1>All Athletes</h1>
+</header>
+<main>
+    {% for athlete in athletes %}
+        <div class="athlete">
+            <h2>{{ athlete.name }}</h2>
+            <div class="athlete" itemscope itemtype="http://schema.org/Person">
+                <h2 itemprop="name">
+                    <a href="{% url 'athlete_detail' athlete.id %}">
+                        {{ athlete.name }}
+                    </a>
+                </h2>
+                <link itemprop="url" href="{% url 'athlete_detail' athlete.id %}">
+                <meta itemprop="birthDate" content="{{ athlete.birth_date }}">
+                <!-- Add more microdata properties based on your schema -->
+
+                <script type="application/ld+json">
+                    {
+                        "@context": "http://schema.org",
+                        "@type": "Person",
+                        "name": "{{ athlete.name }}",
+                        "url": "{% url 'athlete_detail' athlete.id %}",
+                        "birthDate": "{{ athlete.birth_date }}"
+                        // Add more JSON-LD properties based on your schema
+                    }
+                </script>
+
+                <div xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+                     xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#">
+                    <span property="rdf:type" content="dbo:Person"></span>
+                    <span property="rdfs:label" content="{{ athlete.name }}"></span>
+                    <span property="dbo:birthDate" content="{{ athlete.birth_date }}"></span>
+                    <!-- Add more RDF properties based on your schema -->
+                </div>
+            </div>
+
+        </div>
+    {% endfor %}
+</main>
+</body>
+</html>
