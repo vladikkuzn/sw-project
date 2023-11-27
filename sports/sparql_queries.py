@@ -18,7 +18,7 @@ def get_all_athletes():
                    dbo:birthDate ?birthDate;
                    foaf:name ?athleteName .
         }
-        LIMIT 10000
+        LIMIT 1000
     """)
     sparql.setReturnFormat(JSON)
     results = sparql.query().convert()
